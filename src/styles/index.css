@@ -273,4 +273,10 @@ h1 {
     color: darkgreen;
     font-size: 1.3rem;
   }
+  .img-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
 }
