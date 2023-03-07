@@ -127,9 +127,33 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/*  */
+/*  */
+/*  */
+/*  */
 
 body {
+  background-color: aliceblue;
   padding: 20px;
+}
+
+h1 {
+  background-color: aquamarine;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: darkgreen;
+}
+.p-number {
+  border: 1px solid brown;
+  padding: 5px;
+  border-radius: 5px;
+}
+.order {
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 .icon {
@@ -151,20 +175,32 @@ body {
 }
 .bagicon {
   background-color: black;
+  border: 1px solid red;
+  padding: 5px;
+  /* margin-bottom: 10px; */
 }
 
 /* img {
   display: inline-block !important;
 } */
+.title {
+  color: darkgreen;
+  font-size: 1rem;
+}
+.price {
+  padding: 0.4rem 0;
+  color: brown;
+}
 
 .size-box {
-  width: 30%;
+  margin-top: 1.2rem;
 }
+
 .size-btn {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  border: 0;
+  border: 1px solid brown;
   margin: 8px;
 }
 .product-img {
@@ -201,4 +237,40 @@ body {
   /* overflow-y: auto; */
   background-color: white;
   color: black;
+}
+
+@media screen and (max-width: 767px) {
+  .flex {
+    display: block;
+  }
+  .flex-r {
+    display: flex;
+  }
+  .centre {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  figure {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .p-number {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 1.2rem 0;
+  }
+  .product-img {
+    width: 100%;
+  }
+  .price {
+    padding: 0.4rem 0;
+    color: brown;
+  }
+  .title {
+    color: darkgreen;
+    font-size: 1.3rem;
+  }
 }

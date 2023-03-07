@@ -79,12 +79,14 @@ class Product extends React.Component {
         <div className="cart">
           <Cart info={this.state.list} />
         </div>
-        <div className="flex justify">
+        <div className="flex justify ">
           <div>
-            <p>{this.state.products.length} Products found</p>
+            <p className="p-number">
+              Products found:{this.state.products.length}{" "}
+            </p>
           </div>
-          <div className="flex">
-            <p>Order By : </p>
+          <div className="flex flex-r centre">
+            <p className="order">Order By : </p>
             <select onChange={(event) => this.handleRange(event)}>
               <option value="select">select</option>
               <option value="Lowest to Highest">Lowest to Highest</option>
@@ -92,7 +94,7 @@ class Product extends React.Component {
             </select>
           </div>
         </div>
-        <section className=" ">
+        <section className="size-box ">
           <div className="size-btns">
             <p>Sizes:</p>
 
@@ -122,8 +124,8 @@ class Product extends React.Component {
                       src={`/static/products/${product.sku}_1.jpg`}
                       alt="/"
                     />
-                    <p>{product.title}</p>
-                    <p>
+                    <p className="title">{product.title}</p>
+                    <p className="price">
                       Price:{product.currencyFormat}
                       {product.price}
                     </p>
