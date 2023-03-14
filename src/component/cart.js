@@ -1,5 +1,5 @@
 import React from "react";
-import data from "../data.json";
+// import data from "../data.json";
 
 class Cart extends React.Component {
   constructor(props) {
@@ -7,6 +7,7 @@ class Cart extends React.Component {
     this.state = {
       isTrue: true,
       incdec: false,
+      items: this.props.cartItem,
     };
   }
 
@@ -22,20 +23,32 @@ class Cart extends React.Component {
     });
   };
 
+  handleRemove = (event) => {
+    let id = event.target.id;
+
+    if (id === this.props.cartItem.id) {
+      localStorage.removeItem();
+    }
+  };
+
   handleInc = (event) => {
     let id = event.target.id;
-    let singleItem = data.products.filter(
+    let singleItem = this.props.cartItem.filter(
       (single) => String(single.id) === String(id)
     );
+    console.log(singleItem[0], "ii");
+
     singleItem[0].Qty = singleItem[0].Qty + 1;
+
     this.setState({
       incdec: true,
     });
   };
-
   handleDec = (event) => {
     let id = event.target.id;
-    let singleItem = data.products.filter(
+    // var localCart = JSON.parse(localStorage.getItem("localCart"));
+
+    let singleItem = this.props.cartItem.filter(
       (single) => String(single.id) === String(id)
     );
     singleItem[0].Qty = singleItem[0].Qty - 1;
@@ -44,7 +57,39 @@ class Cart extends React.Component {
     });
   };
 
+  // handleInc = (event) => {
+  //   let id = event.target.id;
+  //   console.log(id, "id");
+  //   let singleItem = data.products.filter(
+  //     (single) => String(single.id) === String(id)
+  //   );
+  //   console.log(singleItem, "1");
+  //   singleItem[0].Qty = singleItem[0].Qty + 1;
+  //   this.setState({
+  //     incdec: true,
+  //   });
+
+  // };
+
+  // handleDec = (event) => {
+  //   let id = event.target.id;
+
+  //   let singleItem = data.products.filter(
+  //     (single) => String(single.id) === String(id)
+  //   );
+  //   singleItem[0].Qty = singleItem[0].Qty - 1;
+  //   this.setState({
+  //     incdec: true,
+  //   });
+  //   // if (singleItem[0].qty === 0) {
+  //   //   this.setState({
+  //   //     remove: true,
+  //   //   });
+  //   // }
+  // };
+
   render() {
+    // console.log(this.props.cartItem, "item");
     return (
       <>
         <div className="flex justify">
@@ -66,41 +111,41 @@ class Cart extends React.Component {
               <p>Cart Includes</p>
               <button onClick={this.handleClose}>close</button>
             </div>
-            {[...new Set(this.props.info)].map((a) => {
+            {[...new Set(this.props.cartItem)].map((a) => {
               return (
-                <div className="cartlist">
-                  <img
-                    className="cartproductimg"
-                    src={`/static/products/${a.sku}_1.jpg`}
-                    alt="/"
-                  />
-                  <p>{a.title}</p>
+                <>
+                  <div key={a.id} className="cartlist">
+                    <img
+                      className="cartproductimg"
+                      src={`/static/products/${a.sku}_1.jpg`}
+                      alt="/"
+                    />
+                    <p>{a.title}</p>
 
-                  <p>Quantity:{a.Qty}</p>
+                    <p className="qty">Quantity:{a.Qty}</p>
 
-                  {/* {this.state.incdec === true ? (
-                    <p>Quantity:{a.Qty}</p>
-                  ) : (
-                    <p>Quantity:{a.Qty}</p>
-                  )} */}
-                  <button id={a.id} onClick={this.handleInc}>
-                    +
-                  </button>
-                  <button id={a.id} onClick={this.handleDec}>
-                    -
-                  </button>
-                  <p>
-                    Price:{a.currencyFormat}
-                    {a.price}
-                  </p>
-                </div>
+                    <button id={a.id} onClick={this.handleInc}>
+                      +
+                    </button>
+                    <button id={a.id} onClick={this.handleDec}>
+                      -
+                    </button>
+                    <p>
+                      Price:{a.currencyFormat}
+                      {a.price}
+                    </p>
+                    <button id={a.id} onClick={this.handleRemove}>
+                      Remove
+                    </button>
+                  </div>
+                </>
               );
             })}
-
+            {/* [...new Set(this.props.info)] */}
             <div className="shoppingsummary">
               <p className="summary">
-                SubTotal:{" "}
-                {[...new Set(this.props.info)].reduce((acc, cv) => {
+                SubTotal:$
+                {[...new Set(this.props.cartItem)].reduce((acc, cv) => {
                   acc = acc + cv.price * cv.Qty;
                   return acc;
                 }, 0)}

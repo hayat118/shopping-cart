@@ -11,32 +11,28 @@ class Product extends React.Component {
       products: data.products,
       cart: true,
       list: [],
+      // storage: getLocaldata(),
     };
   }
 
   handleRange = (event) => {
     let range = event.target.value;
-    // let incOrder = data.products.sort((a, b) => b.price - a.price);
-    // let decOrder = data.products.sort((a, b) => a.price - b.price);
 
     if (range === "select") {
       this.setState({
         products: data.products,
-        // products: incOrder,
       });
     }
 
     if (range === "Highest to Lowest") {
       this.setState({
         products: data.products.sort((a, b) => b.price - a.price),
-        // products: incOrder,
       });
     }
 
     if (range === "Lowest to Highest") {
       this.setState({
         products: data.products.sort((a, b) => a.price - b.price),
-        // products: decOrder,
       });
     }
   };
@@ -51,33 +47,45 @@ class Product extends React.Component {
     this.setState({
       products: filterSize,
     });
-    // console.log(filterSize);
   };
 
   handleCart = (event) => {
     let id = event.target.id;
-    // console.log(id, "id", data.products);
     let productList = data.products.filter((a) => String(a.id) === String(id));
-    // console.log(productList, "pro");
-    productList[0].Qty = 1;
+
+    var localCart = JSON.parse(localStorage.getItem("localCart"));
+
+    if (localCart) {
+      var index = localCart.findIndex((a) => Number(a.id) === Number(id));
+      if (index !== -1) {
+        productList[0].Qty = localCart[index]["Qty"] + 1;
+        localCart[index]["Qty"] = productList[0].Qty;
+        localStorage.setItem("localCart", JSON.stringify(localCart));
+      } else {
+        productList[0].Qty = 1;
+        localCart.push(productList[0]);
+        localStorage.setItem("localCart", JSON.stringify(localCart));
+      }
+    } else {
+      productList[0].Qty = 1;
+      localStorage.setItem("localCart", JSON.stringify([productList[0]]));
+    }
+
+    console.log(productList, "pro");
 
     this.setState({
-      // list: [...this.state.list, ...productList],
-      list: this.state.list.concat(productList),
+      list: this.state.list.concat(localStorage.getItem("localCart")),
     });
   };
 
   render() {
     return (
       <>
-        {/* <div className="flex justify">
-          <h1>Shopping Cart</h1>
-          <img className="icon" src="static/bag-icon.png" alt="/" />
-        </div> */}
-        {/* info={this.state.list} */}
-
         <div className="cart">
-          <Cart info={this.state.list} />
+          <Cart
+            info={this.state.list}
+            cartItem={JSON.parse(localStorage.getItem("localCart"))}
+          />
         </div>
         <div className="flex justify ">
           <div>
@@ -98,10 +106,11 @@ class Product extends React.Component {
           <div className="size-btns">
             <p>Sizes:</p>
 
-            {["S", "XS", "M", "X", "L", "XL", "XXL"].map((size) => {
+            {["S", "XS", "M", "X", "L", "XL", "XXL"].map((size, i) => {
               return (
                 <>
                   <button
+                    key={size.i}
                     className="size-btn"
                     onClick={(event) => {
                       this.handleSize(event);
