@@ -243,6 +243,9 @@ h1 {
   background-color: white;
   color: black;
 }
+.price {
+  padding: 10px 0;
+}
 
 @media screen and (max-width: 767px) {
   .flex {

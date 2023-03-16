@@ -23,12 +23,16 @@ class Cart extends React.Component {
     });
   };
 
-  handleRemove = (event) => {
-    let id = event.target.id;
+  handleRemove = (itemId) => {
+    // const newList = this.state.items.filter((item) => item.id !== itemId);
 
-    if (id === this.props.cartItem.id) {
-      localStorage.removeItem();
+    if (itemId) {
+      localStorage.clear();
     }
+
+    // this.setState({
+    //   items: newList,
+    // });
   };
 
   handleInc = (event) => {
@@ -36,7 +40,6 @@ class Cart extends React.Component {
     let singleItem = this.props.cartItem.filter(
       (single) => String(single.id) === String(id)
     );
-    console.log(singleItem[0], "ii");
 
     singleItem[0].Qty = singleItem[0].Qty + 1;
 
@@ -57,39 +60,7 @@ class Cart extends React.Component {
     });
   };
 
-  // handleInc = (event) => {
-  //   let id = event.target.id;
-  //   console.log(id, "id");
-  //   let singleItem = data.products.filter(
-  //     (single) => String(single.id) === String(id)
-  //   );
-  //   console.log(singleItem, "1");
-  //   singleItem[0].Qty = singleItem[0].Qty + 1;
-  //   this.setState({
-  //     incdec: true,
-  //   });
-
-  // };
-
-  // handleDec = (event) => {
-  //   let id = event.target.id;
-
-  //   let singleItem = data.products.filter(
-  //     (single) => String(single.id) === String(id)
-  //   );
-  //   singleItem[0].Qty = singleItem[0].Qty - 1;
-  //   this.setState({
-  //     incdec: true,
-  //   });
-  //   // if (singleItem[0].qty === 0) {
-  //   //   this.setState({
-  //   //     remove: true,
-  //   //   });
-  //   // }
-  // };
-
   render() {
-    // console.log(this.props.cartItem, "item");
     return (
       <>
         <div className="flex justify">
@@ -130,11 +101,11 @@ class Cart extends React.Component {
                     <button id={a.id} onClick={this.handleDec}>
                       -
                     </button>
-                    <p>
+                    <p className="price">
                       Price:{a.currencyFormat}
                       {a.price}
                     </p>
-                    <button id={a.id} onClick={this.handleRemove}>
+                    <button id={a.id} onClick={() => this.handleRemove(a.id)}>
                       Remove
                     </button>
                   </div>
